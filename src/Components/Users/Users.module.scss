@@ -1,0 +1,21 @@
+.active {
+  font-weight: bold;
+}
+
+.users {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  gap: 15px;
+  grid-template-areas:
+          'buttons buttons'
+          'UserCard UserCard';
+}
+
+.buttonsContainer {
+  grid-area: buttons;
+}
+
+.userCard {
+  grid-area: userCard;
+}

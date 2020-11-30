@@ -1,0 +1,20 @@
+.form {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  flex-direction: column;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.errorInput {
+  border: 1px solid red;
+}
+
+input {
+  height: 30px;
+  margin: 10px;
+}
+
