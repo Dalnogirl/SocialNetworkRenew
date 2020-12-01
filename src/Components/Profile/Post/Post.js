@@ -11,10 +11,10 @@ const Post = (props) => {
                 <h2>Post headline</h2>
                 <p>{props.text}</p>
             </div>
-            <button className={style.deletePostButton} onClick={() => {
+            <div className={style.deletePostButton} onClick={() => {
                 props.deletePost(props.id)
             }}>Delete
-            </button>
+            </div>
 
         </div>
 

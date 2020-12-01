@@ -1,7 +1,8 @@
 .post {
   display: flex;
   margin: 0 5px 5px 0;
-  border: 3px solid black;
+  border: 2px solid black;
+  border-radius: 5px;
   position: relative;
 }
 
@@ -9,6 +10,20 @@
   border-radius: 5px;
   position: absolute;
   left: 95%;
+  background-color: #292d3e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 2px 0px 2px;
+  width: 50px;
+
+  color: white;
+  padding: 5px;
+  transition: all 0.2s;
+  &:hover {
+    color: #5ac5e7;
+    cursor: pointer;
+  }
 }
 
 .post_icon {
