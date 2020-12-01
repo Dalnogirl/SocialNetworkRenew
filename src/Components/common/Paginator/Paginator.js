@@ -1,19 +1,45 @@
-import style from "../../Users/Users.module.scss";
+import style from './Paginator.module.scss'
 import React from "react";
 
-let Paginator = ({currentPage, onButtonClick, totalUsersCount, usersOnPage}) => {
+let Paginator = ({
+                     currentPage, onButtonClick, totalUsersCount, itemsOnPage,
+                     portionSize
+                 }) => {
+
     let buttons = []
-    let buttonsCount = Math.ceil(totalUsersCount / usersOnPage)
+    let buttonsCount = Math.ceil(totalUsersCount / itemsOnPage)
     for (let i = 1; i <= buttonsCount; i++) {
         buttons.push(i)
     }
-    return <div className={style.buttonsContainer}>
+    let leftButtonIndex = currentPage === 1 ? currentPage - 1 : currentPage - 2
 
-        {buttons.map(i => <button className={currentPage === i && style.active}
-                                  onClick={() => {
-                                      onButtonClick(i)
-                                  }}>{i}</button>)}
-    </div>
+    let lastPage = Math.ceil(totalUsersCount / portionSize)
+    if (currentPage > lastPage - 10) {
+        leftButtonIndex = lastPage - 10
+    }
+
+
+
+    return (
+        <div className={style.buttonsContainer}>
+
+                {currentPage > 1 && <div className={style.button}  onClick={() => {
+                    onButtonClick(1)
+                }}>{`<`}</div>}
+                {buttons.slice(leftButtonIndex, leftButtonIndex + portionSize)
+                    .map(i => <div
+                        className={currentPage === i && style.active }
+                        className={style.button}
+
+                        onClick={() => {
+                            onButtonClick(i)
+                        }}>{i}</div>)}
+
+                {currentPage < Math.ceil(totalUsersCount / portionSize) && <div className={style.button} onClick={() => {
+                    onButtonClick(Math.ceil(totalUsersCount / portionSize))
+                }}>{`>`}</div>}
+
+        </div>)
 }
 
 export default Paginator

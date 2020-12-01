@@ -12,7 +12,7 @@ const ASYNC_IN_PROGRESS = 'ASYNC_IN_PROGRESS'
 let initialState = {
     users: [],
     currentPage: 1,
-    totalUsersCount: 300,
+    totalUsersCount: null,
     usersOnPage: 10,
     isFetching: false,
     asyncInProgress: []
@@ -88,7 +88,7 @@ export const getUsers = (currentPage, usersOnPage) => {
             .then(data => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
-                setTotalUsersCount(data.totalCount)
+                dispatch(setTotalUsersCount(data.totalCount))
             })
     }
 }

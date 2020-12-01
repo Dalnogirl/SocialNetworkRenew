@@ -21,17 +21,17 @@ const UserCard = ({
             <div><p>{userLocation}</p></div>
             <div>
                 {followed
-                    ? <button disabled={asyncInProgress.some(i => i === id)}
+                    ? <div className={style.button} disabled={asyncInProgress.some(i => i === id)}
                               onClick={() => {
                                   unfollowUser(id)
                               }}>Unfollow
-                    </button>
+                    </div>
 
-                    : <button disabled={asyncInProgress.some(i => i === id)}
+                    : <div className={style.button} disabled={asyncInProgress.some(i => i === id)}
                               onClick={() => {
                                   followUser(id)
                               }}>Follow
-                    </button>}
+                    </div>}
             </div>
         </div>
     )

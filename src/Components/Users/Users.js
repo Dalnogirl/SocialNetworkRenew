@@ -15,7 +15,8 @@ let Users = ({
             <Paginator currentPage={currentPage}
                        onButtonClick={onButtonClick}
                        totalUsersCount={totalUsersCount}
-                       usersOnPage={usersOnPage}
+                       itemsOnPage={usersOnPage}
+                       portionSize={10}
             />
             {users.map(u => <UserCard
                 className={style.userCard}
