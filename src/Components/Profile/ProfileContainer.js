@@ -1,6 +1,12 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {deletePost, getProfileById, getUserStatusById, updateUserStatus,} from "../../redux/reducers/profile-reducer";
+import {
+    changeUserPhoto,
+    deletePost,
+    getProfileById,
+    getUserStatusById,
+    updateUserStatus,
+} from "../../redux/reducers/profile-reducer";
 import Profile from "./Profile";
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
@@ -37,9 +43,11 @@ let ProfileContainer = (props) => {
         }
         props.getProfileById(userId)
         props.getUserStatusById(userId)
-    }, [props.userId])
 
-    return <Profile {...props}/>
+    }, [props.match.params.userId])
+
+    return <Profile {...props}
+                    isOwner={!props.match.params.userId}/>
 }
 
 
@@ -53,6 +61,7 @@ export default compose(
         getProfileById,
         getUserStatusById,
         updateUserStatus,
+        changeUserPhoto
     }),
     withRouter,
     withAuthRedirect

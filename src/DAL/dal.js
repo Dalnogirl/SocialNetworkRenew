@@ -44,17 +44,30 @@ export let profileAPI = {
         return axiosInstance.get(`/profile/status/${id}`).then(response => response.data)
     },
     updateUserStatus(status) {
-        return axiosInstance.put(`/profile/status`,{status})
+        return axiosInstance.put(`/profile/status`, {status})
+    },
+    updateUserPhoto(photo) {
+        let formData = new FormData()
+        formData.append('image', photo)
+        return axiosInstance.put(`/profile/photo`, formData, {headers: {'Content-type': 'multipart/form-data'}})
     }
 }
 
 export let authAPI = {
-    loginAuthorize(email, password, rememberMe, captcha) {
-        return axiosInstance.post(`/auth/login`, {email, password, rememberMe, captcha})
-            .then(response => response.data)
+    loginAuthorize(email, password, rememberMe, captchaUrl) {
+        return axiosInstance.post(`/auth/login`, {email, password, rememberMe, captchaUrl})
+            .then(response => {
+                return response.data
+            })
     },
     logout() {
         return axiosInstance.delete(`/auth/login`)
             .then(response => response.data)
+    }
+}
+
+export let securityAPI = {
+    getCaptchaUrl() {
+        return axiosInstance.get(`/security/get-captcha-url`).then(response => response.data)
     }
 }

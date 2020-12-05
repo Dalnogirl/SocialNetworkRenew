@@ -1,4 +1,7 @@
+$jade: #22b389;
+
 .navbar {
+
   grid-area: n;
   background-color: rgb(32,35,42);
   display: flex;
@@ -25,17 +28,15 @@ a {
 }
 
 .link:hover {
-  color: #5ac5e7;
+  color: $jade;
   background-color: rgb(32,35,42);
-  border: 1px solid #5ac5e7;
-  font-weight: bold;
+  border: 1px solid $jade;
 
 
 }
 
 .active {
-  color: #5ac5e7;
+  color: $jade;
   background-color: rgb(32,35,42);
-  font-weight: bold;
-  border: 1px solid #5ac5e7;
+  border: 1px solid $jade;
 }

@@ -1,30 +1,38 @@
 .content {
   grid-area: c;
-  display: grid;
-  grid-template-columns: 2fr 10fr;
+  display: flex;
 
-}
 
-.dialogInput {
-  margin-top: 15px;
-  border-radius: 10px
 }
 
 .interluctor {
   font-size: 20px;
   color: black;
-  font-family: Tahoma;
   display: flex;
   justify-content: center;
   margin-top: 15px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .interluctors {
-  border-right: 2px solid black;
-
+  border-right: 2px solid #22b389;
+  display: flex;
+  margin-right: 15px;
+  flex-direction: column;
+  width: 20%;
 }
 
 .messages {
-  margin-left: 50px;
-  flex-basis: auto;
+  margin: 0px;
+}
+
+.textarea {
+  border: 2px solid #22b389;
+  border-radius: 5px;
+  resize: none;
+  box-shadow: none;
+  outline: none;
+  height: 100px;
 }

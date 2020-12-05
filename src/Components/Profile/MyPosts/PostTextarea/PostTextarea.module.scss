@@ -1,0 +1,17 @@
+.textarea {
+  border: 2px solid #22b389;
+  border-radius: 5px;
+  resize: none;
+  box-shadow: none;
+  outline: none;
+  height: 100px;
+}
+
+.textareaAndLabel {
+  label {
+    font-weight: bold;
+  }
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}

@@ -11,7 +11,7 @@ let Status = (props) => {
     }, [props.status])
 
 
-    return <div>
+    return <div className={style.status}>
         {editModeFlag
             ?
             <div>

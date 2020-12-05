@@ -1,6 +1,7 @@
 import React from "react";
 import {Field, Form} from "react-final-form";
 import {required} from "../../../utilits/validators";
+import style from '../Dialogs.module.scss'
 
 export let DialogsTextarea = (props) => {
     return (
@@ -14,7 +15,7 @@ export let DialogsTextarea = (props) => {
                 validate={required}>
 
                     {({input, meta}) => (<div>
-                            <textarea {...input} cols="30" rows="10">
+                            <textarea className={style.textarea} {...input} cols="30" rows="10">
                             </textarea>
                             <div>
                                 {meta.error && meta.touched && <span>{meta.error}</span>}

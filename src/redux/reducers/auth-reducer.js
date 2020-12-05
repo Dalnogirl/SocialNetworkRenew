@@ -1,8 +1,9 @@
-import {authAPI, setAuthDataAPI} from "../../DAL/dal";
+import {authAPI, securityAPI, setAuthDataAPI} from "../../DAL/dal";
 
 const SET_USER_DATA = 'auth-reducer/SET_USER_DATA'
 const LOGIN_AUTHORIZE = 'auth-reducer/LOGIN_AUTHORIZE'
 const LOGOUT = 'auth-reducer/LOGOUT'
+const GET_CAPTCHA_URL_SUCCESS = `auth-reducer/GET_CAPTCHA_URL_SUCCESS`
 
 
 let initialState = {
@@ -11,9 +12,8 @@ let initialState = {
     email: null,
     password: null,
     rememberMe: false,
-    captcha: undefined,
+    captchaUrl: null,
     login: null
-
 }
 
 let authReducer = (state = initialState, action) => {
@@ -28,7 +28,6 @@ let authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.data
-
             }
         }
         case LOGOUT: {
@@ -37,8 +36,15 @@ let authReducer = (state = initialState, action) => {
                 email: null,
                 password: null,
                 rememberMe: false,
-                captcha: undefined,
+                captchaUrl: undefined,
                 isAuth: false
+            }
+        }
+        case GET_CAPTCHA_URL_SUCCESS: {
+
+            return {
+                ...state,
+                captchaUrl: action.captchaUrl
             }
         }
         default:
@@ -50,6 +56,13 @@ let setUserDataAC = (id, login, email, isAuth) => {
     return {
         type: SET_USER_DATA,
         data: {id, login, email, isAuth}
+    }
+}
+
+let getCaptchaUrlSuccess = (captchaUrl) => {
+    return {
+        type: GET_CAPTCHA_URL_SUCCESS,
+        captchaUrl
     }
 }
 
@@ -66,17 +79,27 @@ export let setUserData = () => {
 }
 
 export let loginAuthorize = (data) => {
-    let {email, password, rememberMe, captcha} = data
+    let {email, password, rememberMe, captchaUrl} = data
     return async (dispatch) => {
-        let data = await authAPI.loginAuthorize(email, password, rememberMe, captcha)
-        console.log(data)
-        if (data.resultCode === 0) {dispatch(setUserData())}
+        let data = await authAPI.loginAuthorize(email, password, rememberMe, captchaUrl)
+        if (data.resultCode === 0) {
+            dispatch(setUserData())
+        }
+        if (data.resultCode === 10) {
+            dispatch(getCaptchaUrl())
+        }
     }
 }
+
 export let logout = () => (async dispatch => {
     let data = await authAPI.logout()
     data.resultCode === 0 && dispatch(setUserDataAC(null, null, null, false))
 
+})
+
+export let getCaptchaUrl = () => (async dispatch => {
+    let captchaUrl = await securityAPI.getCaptchaUrl()
+    dispatch(getCaptchaUrlSuccess(captchaUrl.url))
 })
 
 

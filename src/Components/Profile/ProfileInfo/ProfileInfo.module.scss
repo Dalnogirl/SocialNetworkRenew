@@ -1,13 +1,69 @@
+$jade: #22b389;
+
 .profileInfo {
   display: flex;
   align-items: center;
+
 }
 
 .profileImage {
   width: 350px;
-  margin-right: 40px;
+  border-radius: 5px;
+  margin-right: 100px;
+}
+
+.status {
+  width: 100%;
+  &:hover {
+    cursor: pointer;
+  }
+  &:focus {}
+  outline: none;
+  border: none;
+}
+
+
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border-radius: 5px;
+  .field {
+    align-items: center;
+    input {
+      width: 200px;
+      &:focus {
+        outline: none;
+      }
+    }
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.nameAndChangePhoto {
+  display: flex;
+  align-items: center;
+}
+
+.profileData {
+  display: flex;
+  flex-direction: column;
+}
+
+.changeAvatar{
+  width: 50px;
+}
+.customFileUpload{
+  cursor: pointer;
+  input {
+    display: none;
+  }
+  border-radius: 100%;
 }
 
 .name {
-  font-size: 100px;
+  font-size: 60px;
+  margin-right: 10px;
 }

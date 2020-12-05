@@ -14,7 +14,6 @@ export let Login = (props) => {
                                     className={style.form}>
             <Field name={`email`}
                    placeholder={`Email`}
-
                    validate={required}>
                 {({input, meta, placeholder}) => {
                     return <div>
@@ -45,6 +44,10 @@ export let Login = (props) => {
                 <Field name={`rememberMe`} component={`input`} type={`checkbox`}/>
                 Remember Me
             </div>
+            {props.captchaUrl && <div>
+                <img src={props.captchaUrl} alt=""/>
+                <Field name={`captchaUrl`} component={`input`}/>
+            </div>}
             <div>
                 <button>Submit</button>
             </div>

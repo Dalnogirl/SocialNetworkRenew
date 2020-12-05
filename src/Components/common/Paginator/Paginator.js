@@ -14,9 +14,7 @@ let Paginator = ({
     let leftButtonIndex = currentPage === 1 ? currentPage - 1 : currentPage - 2
 
     let lastPage = Math.ceil(totalUsersCount / portionSize)
-    if (currentPage > lastPage - 10) {
-        leftButtonIndex = lastPage - 10
-    }
+
 
 
 

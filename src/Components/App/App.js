@@ -1,7 +1,7 @@
 import React, {Suspense} from 'react';
 import style from './App.module.scss';
 import Navbar from "../Navbar/navbar";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Redirect, Route, withRouter} from "react-router-dom";
 
 import UsersContainer from "../Users/UsersContainer";
 import HeaderContainer from "../Header/HeaderContainer";
@@ -29,6 +29,7 @@ class App extends React.Component {
                     <Navbar/>
                     <Suspense fallback={<Loader/>}>
                         <div className={style.app_content_wrapper}>
+                            <Route exact path='/' render={() => <Redirect to={`/profile`}/>}/>
                             <Route path="/dialogs" render={() => <DialogsContainer/>}/>
                             <Route path="/profile/:userId?" render={() => <ProfileContainer/>}/>
                             <Route path="/users" render={() => <UsersContainer/>}/>
@@ -37,7 +38,8 @@ class App extends React.Component {
                     </Suspense>
                 </div>
 
-            ) : (<Loader/>)
+            )
+            : (<Loader/>)
     }
 }
 
@@ -53,10 +55,10 @@ let AppContainer = compose(
 let SocialNetworkApp = (props) => {
 
     return <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
             <AppContainer/>
-        </BrowserRouter>
+        </HashRouter>
     </Provider>
 }
-
+//<BrowserRouter basename={process.env.PUBLIC_URL}>
 export default SocialNetworkApp

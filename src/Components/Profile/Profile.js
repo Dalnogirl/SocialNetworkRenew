@@ -10,7 +10,9 @@ let Profile = (props) => {
         <div className={style.profile}>
             <ProfileInfo profile={props.profile}
                          status={props.status}
-                         updateUserStatus={props.updateUserStatus}/>
+                         isOwner={props.isOwner}
+                         updateUserStatus={props.updateUserStatus}
+                         changeUserPhoto={props.changeUserPhoto}/>
             <MyPostsContainer />
 
         </div>

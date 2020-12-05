@@ -16,10 +16,11 @@ const Dialogs = (props) => {
                 {props.interluctors.map((item) => <Interluctor name={item.name} id={item.id}/>)}
             </div>
             <div className={style.messages}>
-                {props.messages
-                    .map((item) => <Message text={item.text} id={item.id}/>)}
+                <div className={style.messages}>
+                    {props.messages
+                        .map((item) => <Message text={item.text} id={item.id}/>)}
+                </div>
                 <DialogsTextarea addMessage={props.addMessage}/>
-                <button onClick={props.addMessage}>Add Message</button>
             </div>
         </div>
     );
