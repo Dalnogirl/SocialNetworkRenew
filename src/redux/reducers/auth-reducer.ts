@@ -5,8 +5,17 @@ const LOGIN_AUTHORIZE = 'auth-reducer/LOGIN_AUTHORIZE'
 const LOGOUT = 'auth-reducer/LOGOUT'
 const GET_CAPTCHA_URL_SUCCESS = `auth-reducer/GET_CAPTCHA_URL_SUCCESS`
 
+type InitialStateType = {
+    userId: null | number
+    isAuth: boolean
+    email: null | string
+    password: null | string
+    rememberMe: boolean
+    captchaUrl: null | string
+    login: null | string
+}
 
-let initialState = {
+let initialState: InitialStateType = {
     userId: null,
     isAuth: false,
     email: null,
@@ -16,7 +25,7 @@ let initialState = {
     login: null
 }
 
-let authReducer = (state = initialState, action) => {
+let authReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -52,14 +61,31 @@ let authReducer = (state = initialState, action) => {
     }
 }
 
-let setUserDataAC = (id, login, email, isAuth) => {
+type SetUserDataActionDataType = {
+    id: number | null
+    login: string | null
+    email: string | null
+    isAuth: boolean
+}
+
+type SetUserDataActionType = {
+    type: typeof SET_USER_DATA
+    data: SetUserDataActionDataType
+}
+
+let setUserDataAC = (id: number | null, login: string | null, email: string | null, isAuth: boolean): SetUserDataActionType => {
     return {
         type: SET_USER_DATA,
         data: {id, login, email, isAuth}
     }
 }
 
-let getCaptchaUrlSuccess = (captchaUrl) => {
+type GetCaptchaUrlSuccessActionType = {
+    type: typeof GET_CAPTCHA_URL_SUCCESS,
+    captchaUrl: string
+}
+
+let getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessActionType => {
     return {
         type: GET_CAPTCHA_URL_SUCCESS,
         captchaUrl
@@ -67,9 +93,19 @@ let getCaptchaUrlSuccess = (captchaUrl) => {
 }
 
 
+type SetAuthDataAPIResponceDataType = {
+    data: {
+        id: number
+        email: string
+        login: string
+    }
+    resultCode: number
+
+}
+
 export let setUserData = () => {
-    return async (dispatch) => {
-        return setAuthDataAPI().then(data => { //{returns Promise} i use return for isInitialized flag in app component
+    return async (dispatch: any) => {
+        return setAuthDataAPI().then((data: SetAuthDataAPIResponceDataType) => { //{returns Promise} i use return for isInitialized flag in app component
             if (data.resultCode === 0) {
                 let {id, login, email} = data.data
                 return dispatch(setUserDataAC(id, login, email, true))
@@ -78,9 +114,16 @@ export let setUserData = () => {
     }
 }
 
-export let loginAuthorize = (data) => {
+
+type LoginAuthorizeData = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captchaUrl: string | null
+}
+export let loginAuthorize = (data: LoginAuthorizeData) => {
     let {email, password, rememberMe, captchaUrl} = data
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         let data = await authAPI.loginAuthorize(email, password, rememberMe, captchaUrl)
         if (data.resultCode === 0) {
             dispatch(setUserData())
@@ -91,13 +134,13 @@ export let loginAuthorize = (data) => {
     }
 }
 
-export let logout = () => (async dispatch => {
+export let logout = () => (async (dispatch: any) => {
     let data = await authAPI.logout()
     data.resultCode === 0 && dispatch(setUserDataAC(null, null, null, false))
 
 })
 
-export let getCaptchaUrl = () => (async dispatch => {
+export let getCaptchaUrl = () => (async (dispatch: any) => {
     let captchaUrl = await securityAPI.getCaptchaUrl()
     dispatch(getCaptchaUrlSuccess(captchaUrl.url))
 })

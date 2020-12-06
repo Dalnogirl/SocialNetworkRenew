@@ -9,13 +9,14 @@ const UPDATE_USER_STATUS = 'profile-reducer/UPDATE_USER_STATUS'
 const DELETE_POST = 'profile-reducer/DELETE_POST'
 const CHANGE_USER_PHOTO_SUCCESS = 'profile-reducer/CHANGE_USER_PHOTO_SUCCESS'
 
-type initialState = {
-    posts: PostData[]
+type InitialStateType = {
+    posts: Array<PostData>
     profile: null | ProfileData
     status: null | string
 }
+
 type ProfileData = {
-    userId: number
+    userId: number | null
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
@@ -29,17 +30,19 @@ type ProfileData = {
         youtube: string
         mainLink: string
     }
-    photos: {
-        small: string
-        large: string
-    }
+    photos: ProfilePhotos
+}
+
+export type ProfilePhotos = {
+    small: string
+    large: string
 }
 type PostData = {
     text: string
     id: number
 }
 
-let initialState: initialState = {
+let initialState: InitialStateType = {
     posts: [
         {text: 'lorem ipsum dolor sit amet ', id: 1},
         {text: 'lorem ipsum dolor sit', id: 2},
@@ -50,16 +53,12 @@ let initialState: initialState = {
 }
 
 
-let profileReducer = (state = initialState, action: any) => {
+let profileReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
-        case UPDATE_POST_TEXTAREA:
-            return {
-                ...state,
-                newPostText: action.text
-            }
         case ADD_POST: {
             let newPost = {
                 text: action.text,
+                id: 9
             }
             return {
                 ...state,
@@ -96,7 +95,7 @@ let profileReducer = (state = initialState, action: any) => {
                 profile: {
                     ...state.profile,
                     photos: action.photos
-                }
+                } as ProfileData // todo
             }
         }
         default:
@@ -104,14 +103,45 @@ let profileReducer = (state = initialState, action: any) => {
     }
 }
 
+type AddPostActionType = {
+    type: typeof ADD_POST
+    text: string
+}
+export let addPost = (text: string): AddPostActionType => ({type: ADD_POST, text})
 
-export let addPost = (text: string) => ({type: ADD_POST, text})
-export let deletePostAC = (postKey: number) => ({type: DELETE_POST, postKey})
-export let setUserProfile = (profile: object) => ({type: SET_USER_PROFILE, profile})
-let setUserStatus = (text: string) => ({type: SET_USER_STATUS, text})
-let updateUserStatusAC = (status: string) => ({type: UPDATE_USER_STATUS, status})
+type DeletePostActionType = {
+    type: typeof DELETE_POST
+    postKey: number
+}
+export let deletePostAC = (postKey: number): DeletePostActionType => ({type: DELETE_POST, postKey})
 
-let changeUserPhotoSuccess = (photos: any) => ({type: CHANGE_USER_PHOTO_SUCCESS, photos})
+type SetUserProfileActionType = {
+    type: typeof SET_USER_PROFILE
+    profile: ProfileData
+}
+export let setUserProfile = (profile: ProfileData): SetUserProfileActionType => ({type: SET_USER_PROFILE, profile})
+
+type SetUserStatusActionType = {
+    type: typeof SET_USER_STATUS
+    text: string
+}
+let setUserStatus = (text: string): SetUserStatusActionType => ({type: SET_USER_STATUS, text})
+
+type UpdateUserStatusActionType = {
+    type: typeof UPDATE_USER_STATUS
+    status: string
+}
+let updateUserStatusAC = (status: string): UpdateUserStatusActionType => ({type: UPDATE_USER_STATUS, status})
+
+
+type ChangeUserPhotoSuccessActionType = {
+    type: typeof CHANGE_USER_PHOTO_SUCCESS
+    photos: ProfilePhotos
+}
+let changeUserPhotoSuccess = (photos: ProfilePhotos): ChangeUserPhotoSuccessActionType => ({
+    type: CHANGE_USER_PHOTO_SUCCESS,
+    photos
+})
 
 
 export let getProfileById = (userId: number) => {
