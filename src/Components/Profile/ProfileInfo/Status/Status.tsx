@@ -1,14 +1,18 @@
 import style from "../ProfileInfo.module.scss";
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 
+type PropsType = {
+    status: string
+    updateUserStatus: (statusText: string) => void
+}
 
-let Status = (props) => {
+let Status: React.FC<PropsType> = ({status ,updateUserStatus}) => {
     let [editModeFlag, setEditMode] = useState(false)
-    let [statusText, setStatusText] = useState(props.status)
+    let [statusText, setStatusText] = useState(status)
 
     useEffect(() => {
-        setStatusText(props.status)
-    }, [props.status])
+        setStatusText(status)
+    }, [status])
 
 
     return <div className={style.status}>
@@ -18,11 +22,11 @@ let Status = (props) => {
                 <input autoFocus={true}
                        onBlur={_ => {
                            setEditMode(false)
-                           props.updateUserStatus(statusText)
+                           updateUserStatus(statusText)
                        }}
                        className={style.status}
                        value={statusText}
-                       onChange={(e) => {
+                       onChange={(e: ChangeEvent<HTMLInputElement>) => {
                            setStatusText(e.currentTarget.value)
                        }}>
                 </input>
@@ -40,4 +44,5 @@ let Status = (props) => {
 
 }
 
-export default Status
+// @ts-ignore
+export default Status;

@@ -1,11 +1,6 @@
 import React, {useEffect} from 'react';
-import {connect, DefaultRootState} from "react-redux";
-import {
-    followUser, getUsers,
-    setCurrentPage,
-    toggleAsyncInProgress,
-    unfollowUser, UserType
-} from "../../redux/reducers/users-reducer";
+import {connect} from "react-redux";
+import {followUser, getUsers, setCurrentPage, unfollowUser, UserType} from "../../redux/reducers/users-reducer";
 import Loader from "../Loader/Loader";
 import Users from "./Users";
 import {

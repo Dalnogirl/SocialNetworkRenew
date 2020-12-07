@@ -1,4 +1,6 @@
 import {setUserData} from "./auth-reducer";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "../redux-store";
 
 let INITIALIZE = 'app-reducer/INITIALIZE'
 
@@ -6,10 +8,7 @@ type InitialState = {
     initializationSucceeded: boolean
 }
 
-type InitializeActionType = {
-    type: typeof INITIALIZE
 
-}
 
 let initialState: InitialState = {
     initializationSucceeded: false
@@ -30,10 +29,14 @@ let appReducer = (state = initialState, action: any): InitialState => {
 }
 
 
+type ActionTypes = InitializeActionType
+type InitializeActionType = {
+    type: typeof INITIALIZE
 
+}
 let initializeAC = (): InitializeActionType => ({type: INITIALIZE})
 
-export let initialize = () => {
+export let initialize = (): ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes> => {
     return async (dispatch: any) => {
         let promise = dispatch(setUserData())
         Promise.all([promise])

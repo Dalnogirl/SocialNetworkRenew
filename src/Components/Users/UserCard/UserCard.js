@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 
 
 const UserCard = ({
-                      userStatus, userLocation, id,
+     id,
                       userImage, userName, followed,
                       asyncInProgress, unfollowUser, followUser
                   }) => {
@@ -17,8 +17,7 @@ const UserCard = ({
             </NavLink>
 
 
-            <div><p>{userStatus}</p></div>
-            <div><p>{userLocation}</p></div>
+
             <div>
                 {followed
                     ? <div className={style.button} disabled={asyncInProgress.some(i => i === id)}
