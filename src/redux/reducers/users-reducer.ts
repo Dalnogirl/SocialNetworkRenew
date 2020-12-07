@@ -152,14 +152,15 @@ export let toggleAsyncInProgress = (inProgress: boolean, id: number): ToggleAsyn
 // --------------------------------------------------------------------------------------------------------
 // THUNK CREATORS
 
+type ThunkActionsType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+
 type GetUsersAPIResponseType = {
     items: Array<UserType>
     totalCount: number
     error: string | null
 }
-
 export const getUsers = (currentPage: number,
-                         usersOnPage: number): ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes> => {
+                         usersOnPage: number): ThunkActionsType => {
     return async (dispatch, getState) => {
         dispatch(toggleIsFetching(true))
         let data: GetUsersAPIResponseType = await getUsersAPI(currentPage, usersOnPage)
@@ -169,15 +170,15 @@ export const getUsers = (currentPage: number,
     }
 }
 
-export const followUser = (id: number): ThunkAction<void, AppStateType, unknown, ActionTypes> => {
+export const followUser = (id: number): ThunkActionsType => {
     let APIMethod = followUserAPI
     let AC = follow
-    return (dispatch) => {
+    return async (dispatch) => {
         _followUnfollowFlow(dispatch, id, APIMethod, AC)
     }
 }
 
-export const unfollowUser = (id: number): ThunkAction<void, AppStateType, unknown, ActionTypes> => {
+export const unfollowUser = (id: number):ThunkActionsType => {
     let APIMethod = unfollowUserAPI
     let AC = unfollow
     return async (dispatch) => {
@@ -185,7 +186,7 @@ export const unfollowUser = (id: number): ThunkAction<void, AppStateType, unknow
     }
 }
 
-let _followUnfollowFlow = async (dispatch: any, id: number, APIMethod: any, AC: any) => {
+let _followUnfollowFlow = async (dispatch: Dispatch<ActionTypes>, id: number, APIMethod: any, AC: any) => {
     dispatch(toggleAsyncInProgress(true, id))
     let data = await APIMethod(id)
     if (data.resultCode === 0) {
