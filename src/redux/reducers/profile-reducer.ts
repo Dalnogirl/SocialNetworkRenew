@@ -1,7 +1,7 @@
 import {profileAPI, setAuthDataAPI} from "../../DAL/dal";
-import {setUserData} from "./auth-reducer";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "../redux-store";
 
-const UPDATE_POST_TEXTAREA = 'profile-reducer/UPDATE-POST-TEXTAREA'
 const ADD_POST = 'profile-reducer/ADD-POST'
 const SET_USER_PROFILE = 'profile-reducer/SET_USER_PROFILE'
 const SET_USER_STATUS = 'profile-reducer/SET_USER_STATUS'
@@ -53,7 +53,7 @@ let initialState: InitialStateType = {
 }
 
 
-let profileReducer = (state = initialState, action: any): InitialStateType => {
+let profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case ADD_POST: {
             let newPost = {
@@ -103,6 +103,16 @@ let profileReducer = (state = initialState, action: any): InitialStateType => {
     }
 }
 
+
+//-----
+type ActionsTypes =
+    AddPostActionType
+    | DeletePostActionType
+    | SetUserProfileActionType
+    | SetUserStatusActionType
+    | UpdateUserStatusActionType
+    | ChangeUserPhotoSuccessActionType
+
 type AddPostActionType = {
     type: typeof ADD_POST
     text: string
@@ -144,8 +154,11 @@ let changeUserPhotoSuccess = (photos: ProfilePhotos): ChangeUserPhotoSuccessActi
 })
 
 
-export let getProfileById = (userId: number) => {
-    return async (dispatch: any) => {
+//-----
+type ThunkActionsType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export let getProfileById = (userId: number): ThunkActionsType => {
+    return async (dispatch) => {
         if (!userId) {
             let data = await setAuthDataAPI()
             if (data.resultCode === 0) {
@@ -160,15 +173,15 @@ export let getProfileById = (userId: number) => {
     }
 }
 
-export let getUserStatusById = (id: number) => {
-    return async (dispatch: any) => {
+export let getUserStatusById = (id: number): ThunkActionsType => {
+    return async (dispatch) => {
         let data = await profileAPI.getUserStatus(id)
         dispatch(setUserStatus(data))
     }
 }
 
-export let updateUserStatus = (status: string) => {
-    return async (dispatch: any) => {
+export let updateUserStatus = (status: string): ThunkActionsType => {
+    return async (dispatch) => {
         let response = await profileAPI.updateUserStatus(status)
         if (response.data.resultCode === 0) {
             dispatch(updateUserStatusAC(status))
@@ -176,14 +189,13 @@ export let updateUserStatus = (status: string) => {
     }
 }
 
-export let deletePost = (postKey: number) => {
-    return (dispatch: any) => {
+export let deletePost = (postKey: number):ThunkActionsType => {
+    return async (dispatch) => {
         dispatch(deletePostAC(postKey))
     }
 }
 
-export let changeUserPhoto = (photo: any) => { //todo
-
+export let changeUserPhoto = (photo: ProfilePhotos): ThunkActionsType => {
     return async (dispatch: any) => {
         let response = await profileAPI.updateUserPhoto(photo)
         if (response.data.resultCode === 0) {
