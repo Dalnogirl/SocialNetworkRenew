@@ -1,8 +1,8 @@
 import {authAPI, securityAPI, setAuthDataAPI} from "../../DAL/dal";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "../redux-store";
 
 const SET_USER_DATA = 'auth-reducer/SET_USER_DATA'
-const LOGIN_AUTHORIZE = 'auth-reducer/LOGIN_AUTHORIZE'
-const LOGOUT = 'auth-reducer/LOGOUT'
 const GET_CAPTCHA_URL_SUCCESS = `auth-reducer/GET_CAPTCHA_URL_SUCCESS`
 
 type InitialStateType = {
@@ -25,7 +25,7 @@ let initialState: InitialStateType = {
     login: null
 }
 
-let authReducer = (state = initialState, action: any) => {
+let authReducer = (state = initialState, action: ActionsTypes) => {
     switch (action.type) {
         case SET_USER_DATA: {
             return {
@@ -33,24 +33,7 @@ let authReducer = (state = initialState, action: any) => {
                 ...action.data
             }
         }
-        case LOGIN_AUTHORIZE: {
-            return {
-                ...state,
-                ...action.data
-            }
-        }
-        case LOGOUT: {
-            return {
-                ...state,
-                email: null,
-                password: null,
-                rememberMe: false,
-                captchaUrl: undefined,
-                isAuth: false
-            }
-        }
         case GET_CAPTCHA_URL_SUCCESS: {
-
             return {
                 ...state,
                 captchaUrl: action.captchaUrl
@@ -60,6 +43,8 @@ let authReducer = (state = initialState, action: any) => {
             return state
     }
 }
+//-----
+type ActionsTypes = SetUserDataActionType | GetCaptchaUrlSuccessActionType
 
 type SetUserDataActionDataType = {
     id: number | null
@@ -67,12 +52,10 @@ type SetUserDataActionDataType = {
     email: string | null
     isAuth: boolean
 }
-
 type SetUserDataActionType = {
     type: typeof SET_USER_DATA
     data: SetUserDataActionDataType
 }
-
 let setUserDataAC = (id: number | null, login: string | null, email: string | null, isAuth: boolean): SetUserDataActionType => {
     return {
         type: SET_USER_DATA,
@@ -84,7 +67,6 @@ type GetCaptchaUrlSuccessActionType = {
     type: typeof GET_CAPTCHA_URL_SUCCESS,
     captchaUrl: string
 }
-
 let getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessActionType => {
     return {
         type: GET_CAPTCHA_URL_SUCCESS,
@@ -103,7 +85,10 @@ type SetAuthDataAPIResponceDataType = {
 
 }
 
-export let setUserData = () => {
+
+//-----
+type ThunkActionType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+export let setUserData = (): ThunkActionType => {
     return async (dispatch: any) => {
         return setAuthDataAPI().then((data: SetAuthDataAPIResponceDataType) => { //{returns Promise} i use return for isInitialized flag in app component
             if (data.resultCode === 0) {
@@ -121,7 +106,7 @@ type LoginAuthorizeData = {
     rememberMe: boolean
     captchaUrl: string | null
 }
-export let loginAuthorize = (data: LoginAuthorizeData) => {
+export let loginAuthorize = (data: LoginAuthorizeData): ThunkActionType => {
     let {email, password, rememberMe, captchaUrl} = data
     return async (dispatch: any) => {
         let data = await authAPI.loginAuthorize(email, password, rememberMe, captchaUrl)
@@ -134,13 +119,13 @@ export let loginAuthorize = (data: LoginAuthorizeData) => {
     }
 }
 
-export let logout = () => (async (dispatch: any) => {
+export let logout = (): ThunkActionType => (async (dispatch: any) => {
     let data = await authAPI.logout()
     data.resultCode === 0 && dispatch(setUserDataAC(null, null, null, false))
 
 })
 
-export let getCaptchaUrl = () => (async (dispatch: any) => {
+export let getCaptchaUrl = (): ThunkActionType => (async (dispatch: any) => {
     let captchaUrl = await securityAPI.getCaptchaUrl()
     dispatch(getCaptchaUrlSuccess(captchaUrl.url))
 })
