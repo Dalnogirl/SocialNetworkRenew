@@ -1,6 +1,7 @@
 import {followUserAPI, getUsersAPI, unfollowUserAPI} from "../../DAL/dal";
 import {updatePropertyInArray} from "../../utilits/object-helper";
 import {ProfilePhotos} from "./profile-reducer";
+import exp from "constants";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -18,7 +19,7 @@ type InitialStateType = {
     isFetching: boolean
     asyncInProgress: Array<number>
 }
-type UserType = {
+export type UserType = {
     id: number
     name: string
     status: string | null

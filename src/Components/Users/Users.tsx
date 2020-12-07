@@ -3,9 +3,21 @@ import style from "./Users.module.scss";
 import UserCard from "./UserCard/UserCard";
 import userImage from "../../assets/images/64495.png";
 import Paginator from "../common/Paginator/Paginator";
+import {UserType} from "../../redux/reducers/users-reducer";
 
+type PropsType = {
+    users: Array<UserType>
+    currentPage: number
+    totalUsersCount: number
+    usersOnPage: number
+    asyncInProgress: Array<number>
 
-let Users = ({
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
+    onButtonClick: (currentPage: number)=>void
+}
+
+let Users: React.FC<PropsType> = ({
                  users, currentPage, onButtonClick,
                  totalUsersCount, usersOnPage, asyncInProgress,
                  followUser, unfollowUser
@@ -18,13 +30,11 @@ let Users = ({
                        itemsOnPage={usersOnPage}
                        portionSize={10}
             />
-            {users.map(u => <UserCard
-                className={style.userCard}
+            {users.map((u) => <UserCard
+                //className={style.userCard}
                 followed={u.followed}
                 userImage={u.photos.small ? u.photos.small : userImage}
                 userName={u.name}
-                userLocation={u.userLocation}
-                userStatus={u.userStatus}
                 id={u.id}
                 asyncInProgress={asyncInProgress}
                 followUser={followUser}
@@ -33,4 +43,5 @@ let Users = ({
 
 }
 
+// @ts-ignore
 export default Users
