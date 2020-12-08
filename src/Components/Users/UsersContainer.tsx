@@ -1,6 +1,12 @@
 import React, {useEffect} from 'react';
 import {connect} from "react-redux";
-import {followUser, getUsers, setCurrentPage, unfollowUser, UserType} from "../../redux/reducers/users-reducer";
+import {
+    followUser,
+    getUsers,
+    unfollowUser,
+    usersActions,
+    UserType
+} from "../../redux/reducers/users-reducer";
 import Loader from "../Loader/Loader";
 import Users from "./Users";
 import {
@@ -77,6 +83,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType=> {
     }
 }
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState
+let setCurrentPage = usersActions.setCurrentPage
 export default compose(
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
         mapStateToProps,
