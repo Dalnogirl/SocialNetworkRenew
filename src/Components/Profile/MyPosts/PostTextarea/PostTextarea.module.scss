@@ -1,3 +1,5 @@
+$jade: #22b389;
+
 .textarea {
   border: 2px solid #22b389;
   border-radius: 5px;
@@ -5,13 +7,33 @@
   box-shadow: none;
   outline: none;
   height: 100px;
+  font-family: Arial, serif;
 }
 
 .textareaAndLabel {
   label {
     font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
   }
   display: flex;
   flex-direction: column;
   width: 30%;
+
+}
+
+.postTextarea {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.button {
+  height: 30%;
+  margin-left: 5px;
+  padding: 10px;
+  color: $jade;
+  border-radius: 5px;
+  background-color: rgb(32,35,42);
+  border: 1px solid $jade;
 }

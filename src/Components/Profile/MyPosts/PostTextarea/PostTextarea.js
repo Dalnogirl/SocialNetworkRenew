@@ -8,7 +8,7 @@ export let PostTextarea = (props) => {
             onSubmit={formData => {
                 props.addPost(formData.postText)
             }}>
-            {({handleSubmit}) => (<form action="" onSubmit={handleSubmit}>
+            {({handleSubmit}) => (<form action="" onSubmit={handleSubmit} className={styles.postTextarea}>
                 <Field name={`postText`}
                        placeholder={`Say something`}
                        component={`textarea`}
@@ -17,14 +17,14 @@ export let PostTextarea = (props) => {
                     {({input, meta, placeholder}) => (
                         <div className={styles.textareaAndLabel}>
                             <label>Enter your post here!</label>
-                            <textarea placeholder={`post should be really short`} className={styles.textarea} {...input} />
+                            <textarea placeholder={`Post should be really short`} className={styles.textarea} {...input} />
                             <div>
                                 {meta.error && meta.touched && meta.error}
                             </div>
                         </div>
                     )}
                 </Field>
-                <button>Submit</button>
+                <button className={styles.button}>Submit</button>
             </form>)}
         </Form>
     )

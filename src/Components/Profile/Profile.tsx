@@ -3,9 +3,16 @@ import style from './Profile.module.scss';
 
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {ProfileType} from "../../redux/reducers/profile-reducer";
 
-
-let Profile = (props) => {
+type PropsType = {
+    updateUserStatus: (text: string) => void
+    changeUserPhoto: (photo: any) => void
+    profile: ProfileType | null
+    status: string | null
+    isOwner: boolean
+}
+let Profile: React.FC<PropsType> = (props) => {
     return (
         <div className={style.profile}>
             <ProfileInfo profile={props.profile}

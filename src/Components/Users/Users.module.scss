@@ -5,15 +5,19 @@
 .users {
   padding: 15px;
   display: grid;
-  grid-template-columns: 2fr 2fr;
+  grid-template-columns: 2fr 2fr 2fr;
   gap: 15px;
   grid-template-areas:
-          'buttons buttons'
-          'UserCard UserCard';
+          'buttons buttons search'
+          'userCard userCard userCard';
 }
 
 
-
+.searchForm {
+  grid-area: search;
+}
 .userCard {
   grid-area: userCard;
+
+
 }

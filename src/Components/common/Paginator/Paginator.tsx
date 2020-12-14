@@ -22,10 +22,6 @@ const Paginator: React.FC<PropsType> = ({
         buttons.push(i)
     }
     let leftButtonIndex = currentPage === 1 ? currentPage - 1 : currentPage - 2
-
-    //let lastPage = Math.ceil(totalUsersCount / portionSize)
-
-
     return (
         <div className={style.buttonsContainer}>
             {currentPage > 1 && <div className={style.button} onClick={() => {

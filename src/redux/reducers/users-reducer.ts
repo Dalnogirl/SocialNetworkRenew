@@ -4,8 +4,17 @@ import {ProfilePhotos} from "./profile-reducer";
 import {Dispatch} from "redux";
 import {AppStateType, InferActionsTypes} from "../redux-store";
 import {ThunkAction} from "redux-thunk";
+import exp from "constants";
 
-type InitialStateType = typeof initialState
+type InitialStateType = {
+    users: Array<UserType>
+    currentPage: number
+    totalUsersCount: number
+    usersOnPage: number
+    isFetching: boolean
+    asyncInProgress: Array<number>
+    filter: FilterType
+}
 export type UserType = {
     id: number
     name: string
@@ -13,16 +22,24 @@ export type UserType = {
     photos: ProfilePhotos
     followed: boolean
 }
-let initialState = {
+let initialState: InitialStateType = {
     users: [],
     currentPage: 1,
     totalUsersCount: 0,
-    usersOnPage: 10,
+    usersOnPage: 9,
     isFetching: false,
     asyncInProgress: [],
+    filter: {
+        friend: null,
+        term: ''
+    }
+}
+export type FilterType = {
+    friend: null| boolean
+    term: string
 }
 
-let usersReducer = (state:InitialStateType = initialState, action: ActionTypes) => {
+let usersReducer = (state = initialState, action: ActionTypes) => {
     switch (action.type) {
         case 'FOLLOW': {
             return {
@@ -46,7 +63,6 @@ let usersReducer = (state:InitialStateType = initialState, action: ActionTypes) 
             }
         }
         case 'SET_TOTAL_USERS_COUNT': {
-            debugger
             return {
                 ...state,
                 totalUsersCount: action.totalUsersCount
@@ -91,7 +107,8 @@ export let usersActions = {
         type: 'ASYNC_IN_PROGRESS',
         inProgress,
         id
-    } as const)
+    } as const),
+    setFilter:(filter: FilterType) => ({type: 'SET_FILTER', payload: filter} as const)
 }
 // --------------------------------------------------------------------------------------------------------
 // THUNK CREATORS
@@ -104,10 +121,14 @@ type GetUsersAPIResponseType = {
     error: string | null
 }
 export const getUsers = (currentPage: number,
-                         usersOnPage: number): ThunkActionsType => {
+                         usersOnPage: number,
+                         filter: FilterType
+): ThunkActionsType => {
     return async (dispatch) => {
         dispatch(usersActions.toggleIsFetching(true))
-        let data: GetUsersAPIResponseType = await usersAPI.getUsersAPI(currentPage, usersOnPage)
+        dispatch(usersActions.setFilter(filter))
+
+        let data: GetUsersAPIResponseType = await usersAPI.getUsersAPI(currentPage, usersOnPage, filter)
         dispatch(usersActions.toggleIsFetching(false))
         dispatch(usersActions.setUsers(data.items))
         dispatch(usersActions.setTotalUsersCount(data.totalCount))

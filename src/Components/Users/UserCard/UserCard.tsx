@@ -2,12 +2,27 @@ import React from 'react';
 import style from './UserCard.module.scss';
 import {NavLink} from "react-router-dom";
 
+type PropsType = {
+    followed: boolean
+    userImage: any
+    userName: string
+    id: number
 
-const UserCard = ({
-     id,
-                      userImage, userName, followed,
-                      asyncInProgress, unfollowUser, followUser
-                  }) => {
+
+
+
+    asyncInProgress: Array<number>
+
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
+
+}
+
+const UserCard: React.FC<PropsType> = ({
+                                           id,
+                                           userImage, userName, followed,
+                                           asyncInProgress, unfollowUser, followUser
+                                       }) => {
 
     return (
         <div className={style.userCard}>
@@ -17,20 +32,19 @@ const UserCard = ({
             </NavLink>
 
 
-
             <div>
                 {followed
-                    ? <div className={style.button} disabled={asyncInProgress.some(i => i === id)}
+                    ? <button className={style.button} disabled={asyncInProgress.some(i => i === id)}
                               onClick={() => {
                                   unfollowUser(id)
                               }}>Unfollow
-                    </div>
+                    </button>
 
-                    : <div className={style.button} disabled={asyncInProgress.some(i => i === id)}
+                    : <button className={style.button} disabled={asyncInProgress.some(i => i === id)}
                               onClick={() => {
                                   followUser(id)
                               }}>Follow
-                    </div>}
+                    </button>}
             </div>
         </div>
     )

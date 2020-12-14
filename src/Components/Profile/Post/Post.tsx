@@ -1,8 +1,13 @@
 import React from 'react';
 import style from './Post.module.scss';
 
-
-const Post = (props) => {
+type PropsType = {
+    deletePost: (postId: number) => void
+    key: number
+    id: number
+    text: string
+}
+const Post: React.FC<PropsType> = (props) => {
     return (
         <div className={style.post}>
             <img className={style.post_icon} src="https://www.searchpng.com/wp-content/uploads/2019/02/Profile-ICon.png"

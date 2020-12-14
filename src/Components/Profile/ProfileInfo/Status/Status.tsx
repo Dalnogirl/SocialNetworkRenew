@@ -2,11 +2,11 @@ import style from "../ProfileInfo.module.scss";
 import React, {ChangeEvent, useEffect, useState} from "react";
 
 type PropsType = {
-    status: string
-    updateUserStatus: (statusText: string) => void
+    status: string | null
+    updateUserStatus: (statusText: any) => void
 }
 
-let Status: React.FC<PropsType> = ({status ,updateUserStatus}) => {
+let Status: React.FC<PropsType> = ({status, updateUserStatus}) => {
     let [editModeFlag, setEditMode] = useState(false)
     let [statusText, setStatusText] = useState(status)
 

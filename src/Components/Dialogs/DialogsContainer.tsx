@@ -28,7 +28,7 @@ type OwnPropsType ={
 }
 
 let addMessage = dialogsActions.addMessage
-export default compose(
+export default compose<React.ComponentType>(
     connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps, {addMessage}),
     withAuthRedirect,
 )(Dialogs)

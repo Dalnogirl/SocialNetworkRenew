@@ -5,13 +5,22 @@ import icon from '../../../assets/images/64495.png'
 import Status from "./Status/Status";
 import changeAvatar from '../../../assets/images/changeAvatar.svg'
 import ProfileContactForm from "./ProfileContactForm/ProfileContactForm";
+import {ProfileType} from "../../../redux/reducers/profile-reducer";
 
+type PropsType = {
+    profile?: ProfileType | null
+    status: string | null
+    isOwner: boolean
+    updateUserStatus: (text: string) => void
+    changeUserPhoto: (photo: any) => void
+}
 
-const ProfileInfo = (props) => {
+const ProfileInfo: React.FC<PropsType> = (props) => {
     let [editMode, toggleEditMode] = useState(false)
     if (!props.profile) {
         return <Loader/>
     }
+
     return (
         <div className={style.profileInfo}>
             <div className={style.description}>
@@ -35,7 +44,8 @@ const ProfileInfo = (props) => {
                     : <div className={style.contacts}>
                         <p><b>Contacts</b></p>
                         <div>
-                            {Object.keys(props.profile.contacts).map(key => (<Contact key={key}
+
+                            { Object.keys(props.profile.contacts).map(key => (<Contact key={key}
                                                                                       contactKey={key}
                                                                                       contactValue={props.profile.contacts[key]}/>))}
                         </div>
@@ -49,13 +59,18 @@ const ProfileInfo = (props) => {
         </div>
     )
 }
+type ChangePhoto = {
+    isOwner: any
+    changeUserPhoto: (photo: any) => void
+}
 
-
-let ChangePhoto = ({isOwner, changeUserPhoto}) => {
+let ChangePhoto: React.FC<ChangePhoto> = ({isOwner, changeUserPhoto}) => {
     return (isOwner && <label className={style.customFileUpload}>
             <img className={style.changeAvatar} src={changeAvatar} alt=""/>
             <input type="file" onChange={(e) => {
+                // @ts-ignore
                 if (e.target.files.length) {
+                    // @ts-ignore
                     changeUserPhoto(e.target.files[0])
                 }
 
@@ -63,12 +78,15 @@ let ChangePhoto = ({isOwner, changeUserPhoto}) => {
         </label>
     )
 }
+type ContactProps = {
+    contactKey: string
+    contactValue: string | null
 
-let Contact = ({contactKey, contactValue}) => {
-    console.log(contactValue)
+}
+let Contact: React.FC<ContactProps> = ({contactKey, contactValue}) => {
     return <div>
         <span className={style.contactKey}>{contactKey}: </span>
-        <span className={style.contactValue}>{contactValue? contactValue: `no info`}</span>
+        <span className={style.contactValue}>{contactValue ? contactValue : `no info`}</span>
     </div>
 
 }

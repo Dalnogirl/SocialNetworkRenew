@@ -1,10 +1,10 @@
 import React from "react";
 import style from './Loader.module.scss'
 
-let Loader = (props) => {
+let Loader = () => {
     return (
         <div className={style.preloader}>
-            <div className={style.spinner}></div>
+            <div className={style.spinner}/>
         </div>)
 }
 

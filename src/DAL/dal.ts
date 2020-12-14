@@ -1,5 +1,6 @@
 import axios from "axios";
 import {ProfilePhotos} from "../redux/reducers/profile-reducer";
+import {FilterType} from "../redux/reducers/users-reducer";
 
 let axiosInstance = axios.create({
     withCredentials: true,
@@ -11,8 +12,10 @@ let axiosInstance = axios.create({
 
 
 export let usersAPI = {
-    getUsersAPI: (currentPage = 1, usersOnPage = 10) => {
-        return axiosInstance.get<GetUsersResponceType>(`/users?page=${currentPage}&count=${usersOnPage}`)
+    getUsersAPI: (currentPage = 1, usersOnPage = 9, filter: FilterType) => {
+        let {term, friend} = filter
+        return axiosInstance.get<GetUsersResponceType>(`/users?page=${currentPage}&count=${usersOnPage}&term=${term}` +
+            (friend === null ? '' : `&friend=${friend}`))
             .then(responce => responce.data)
     },
     setAuthDataAPI: () => {
@@ -26,7 +29,7 @@ export let usersAPI = {
     unfollowUserAPI: (id: number) => {
         return axiosInstance.delete<PostDeleteResponseType>(`/follow/${id}`)
             .then(response => response.data)
-    }
+    },
 }
 
 type GetUsersResponceType = {
@@ -49,13 +52,16 @@ type SetAuthDataResponseType = {
         login: string
     }
 }
+
 enum ResultCodeEnum {
     Success = 0,
     Error = 1
 }
+
 enum ResultCodeEnumWithCaptcha {
     CaptchaIsRequired = 10
 }
+
 type GetProfileResponceType = {
     aboutMe: null | string
     contacts: {

@@ -17,6 +17,7 @@ export let getUsersComplex = createSelector(getUsersData,(users)=>{
 
 export let getCurrentPage = (state: AppStateType) => state.usersData.currentPage
 
+export let getFilter = (state: AppStateType) => state.usersData.filter
 export let getTotalUsersCount = (state: AppStateType) => state.usersData.totalUsersCount
 
 export let getUsersOnPage = (state: AppStateType) => state.usersData.usersOnPage
@@ -24,3 +25,4 @@ export let getUsersOnPage = (state: AppStateType) => state.usersData.usersOnPage
 export let getIsFetching = (state: AppStateType) => state.usersData.isFetching
 
 export let getAsyncInProgress = (state: AppStateType) => state.usersData.asyncInProgress
+
